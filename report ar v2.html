@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تقرير التسويق والعمليات - Touch Store</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Light Mode Palette */
+      --gold: #B48A3A; 
+      --bg: #F3F4F6; 
+      --bg-1: #FFFFFF; 
+      --text: #111827; 
+      --text-muted: #4B5563; 
+      --text-dim: #6B7280;
+      --border: #E5E7EB; 
+      --radius: 16px;
+      --font: 'Tajawal', sans-serif;
+    }
+    
+    body { background: var(--bg); color: var(--text); font-family: var(--font); padding-bottom: 60px; margin: 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    .report-header { padding: 60px 24px; text-align: center; border-bottom: 1px solid var(--border); background: var(--bg-1); box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .report-client { font-size: 14px; letter-spacing: 1px; color: var(--gold); font-weight: 700; margin-bottom: 12px; display: block; }
+    .report-title { font-size: clamp(32px, 5vw, 48px); font-weight: 900; margin-bottom: 8px; color: var(--text); }
+    .report-date { color: var(--text-muted); font-size: 16px; font-weight: 500; }
+    
+    .report-section { padding: 60px 0; }
+    .report-section-title { font-size: 26px; font-weight: 800; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; color: var(--text); }
+    .report-section-title::before { content: ''; display: block; width: 4px; height: 26px; background: var(--gold); border-radius: 4px; }
+    
+    .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .result-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .result-num { font-size: 40px; font-weight: 900; margin-bottom: 4px; display: flex; align-items: baseline; gap: 8px; color: var(--gold); }
+    .result-unit { font-size: 16px; color: var(--gold); font-weight: 700; }
+    .result-label { font-size: 15px; font-weight: 800; margin-bottom: 24px; color: var(--text); }
+    
+    .metric-comparison { display: flex; flex-direction: column; gap: 8px; font-size: 14px; border-top: 1px solid var(--border); padding-top: 16px; font-weight: 500; }
+    .metric-row { display: flex; justify-content: space-between; color: var(--text-muted); }
+    .metric-row.loss { color: #dc2626; font-weight: 700; margin-top: 4px; }
+    .metric-row.real { color: #16a34a; font-weight: 700; }
+    
+    .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .insight-card { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; border-top: 4px solid #ef4444; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .insight-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+    .insight-card p { color: var(--text-muted); line-height: 1.7; font-size: 15px; margin-bottom: 16px; font-weight: 500; }
+    
+    .action-list { color: var(--text-muted); line-height: 1.8; font-size: 16px; font-weight: 500; background: var(--bg-1); padding: 32px 48px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .action-list li { margin-bottom: 16px; }
+    .action-list strong { color: var(--text); font-weight: 800; }
+
+    /* Tables CSS */
+    .report-table-wrapper { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 32px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .report-table { width: 100%; border-collapse: collapse; text-align: right; font-size: 14px; font-weight: 500; }
+    .report-table th { padding: 16px 24px; color: var(--gold); font-weight: 800; font-size: 14px; border-bottom: 1px solid var(--border); background: #F9FAFB; }
+    .report-table td { padding: 16px 24px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+    .report-table tr:last-child td { border-bottom: none; }
+    .report-table td strong { color: var(--text); font-weight: 700; }
+    
+    .list-wrapper { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; font-size: 15px; line-height: 1.8; color: var(--text-muted); height: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .list-wrapper h4 { color: var(--text); font-size: 20px; font-weight: 800; margin: 0 0 16px 0; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .highlight-red { color: #dc2626; font-weight: 800; }
+
+    a.custom-link { color: #2563eb; text-decoration: none; font-weight: 700; }
+    a.custom-link:hover { text-decoration: underline; }
+
+    /* Mobile Responsive Tables (Fixed Overlap) */
+    @media (max-width: 768px) {
+      .insight-grid, .results-grid { grid-template-columns: 1fr; }
+      
+      .report-table thead { display: none; }
+      .report-table, .report-table tbody, .report-table tr, .report-table td { display: block; width: 100%; box-sizing: border-box; }
+      .report-table tr { margin-bottom: 16px; border-bottom: 4px solid var(--bg); }
+      .report-table tr:last-child { margin-bottom: 0; border-bottom: none; }
+      
+      .report-table td { 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        font-size: 15px;
+        text-align: left;
+      }
+      .report-table td::before { 
+        content: attr(data-label); 
+        font-weight: 800; 
+        color: var(--gold);
+        text-align: right;
+        margin-left: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="report-header">
+    <span class="report-client">العميل: Touch Store</span>
+    <h1 class="report-title">تقرير العمليات والتسويق</h1>
+    <div class="report-date">ملخص أرقام شهر 6 - 2026</div>
+  </header>
+
+  <!-- THE BOTTOM LINE -->
+  <section class="report-section">
+    <div class="container">
+      <h2 class="report-section-title">الملخص المالي لشهر 6</h2>
+      
+      <!-- Financial Summary Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>إجمالي المبيعات</th>
+              <th>إجمالي صرف الإعلانات </th>
+              <th>إجمالي تكلفة المنتجات</th>
+              <th>إجمالي مصاريف الشحن</th>
+              <th style="color: #16a34a; font-size: 16px;">صافي الربح النهائي</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="إجمالي المبيعات"><strong>31,995 جنيه</strong></td>
+              <td data-label="إجمالي صرف الإعلانات (بعد الضريبة)"><strong>9,859.24 جنيه</strong></td>
+              <td data-label="إجمالي تكلفة المنتجات"><strong>12,250 جنيه</strong></td>
+              <td data-label="إجمالي مصاريف الشحن"><strong>6,691.29 جنيه</strong></td>
+              <td data-label="صافي الربح النهائي" style="color: #16a34a; font-weight: 900; font-size: 18px;">3,194.47 جنيه</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Metrics Table -->
+      <div class="report-table-wrapper">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>تكلفة الطلب (CPA)</th>
+              <th>العائد على الإنفاق (ROAS)</th>
+              <th>نسبة التأكيدات</th>
+              <th>نسبة التسليم</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="تكلفة الاستحواذ"><strong>159.0 جنيه</strong></td>
+              <td data-label="العائد على الإنفاق"><strong>11.09%</strong></td>
+              <td data-label="نسبة التأكيدات"><strong>70.49%</strong></td>
+              <td data-label="نسبة التسليم"><strong>80.95%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Products Breakdown Table -->
+      <div class="report-table-wrapper" style="margin-bottom: 0;">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>المنتج المباع</th>
+              <th>عدد الطلبات</th>
+              <th>تكلفة القطعة</th>
+              <th>إجمالي التكلفة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="المنتج المباع">تابلوه بركة البيت</td>
+              <td data-label="عدد الطلبات"><strong>35</strong></td>
+              <td data-label="تكلفة القطعة">300 جنيه</td>
+              <td data-label="إجمالي التكلفة"><strong>10,500 جنيه</strong></td>
+            </tr>
+            <tr>
+              <td data-label="المنتج المباع">جداريات الأكريلك</td>
+              <td data-label="عدد الطلبات"><strong>7</strong></td>
+              <td data-label="تكلفة القطعة">200 جنيه</td>
+              <td data-label="إجمالي التكلفة"><strong>1,400 جنيه</strong></td>
+            </tr>
+            <tr>
+              <td data-label="المنتج المباع">تابلوه تسبيح</td>
+              <td data-label="عدد الطلبات"><strong>1</strong></td>
+              <td data-label="تكلفة القطعة">350 جنيه</td>
+              <td data-label="إجمالي التكلفة"><strong>350 جنيه</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LEAKAGE DETAILS -->
+  <section class="report-section" style="background: var(--bg-1); border-top: 1px solid var(--border);">
+    <div class="container">
+      <h2 class="report-section-title">تفاصيل التسريب (الطلبات الملغية والمرتجعة)</h2>
+      <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 24px; line-height: 1.8; font-weight: 500;">
+        عشان نفهم ليه صافي الربح وقف عند <strong style="color: var(--text); font-weight: 800;">3,194 جنيه</strong> بس، لازم نبص على الفلوس اللي ضاعت في الطلبات اللي اتلغت بعد الإعلان. لو افترضنا إننا حققنا نسبة تأكيد صحية وطبيعية (85% - 90%)، كان صافي الربح هيتضاعف. المبيعات بتيجي، لكنها بتضيع في التقفيل بعد ما العميل بيشوف الإعلان ويطلب. ضيف على دا منتج الطلب عليه قليل.
+      </p>
+
+      <div class="insight-grid">
+        <!-- Cancelled Orders -->
+        <div class="list-wrapper">
+          <h4>تسريب التأكيد (الطلبات الملغية)</h4>
+          <p>
+            سجلنا عدد كبير من الطلبات الملغية. 
+          </p>
+          <p style="font-size: 18px; color: var(--text); margin-top: 24px;">
+            إجمالي المبالغ الضايعة من المبيعات الملغية:<br>
+            <strong class="highlight-red" style="font-size: 28px; display: block; margin-top: 8px;">14,361 جنيه</strong>
+          </p>
+          <p style="font-size: 13px; margin-top: 16px;">
+            * المبلغ دا كان كفيل بمضاعفة صافي الربح في حالة الحفاظ على نسبة تأكيد طبيعية.
+          </p>
+        </div>
+
+        <!-- Returned Orders -->
+        <div class="list-wrapper">
+          <h4>تسريب التسليم (المرتجعات)</h4>
+          <p>
+            بالرغم من وجود مرتجعات كلفتنا مصاريف شحن مهدرة قيمتها حوالي <strong style="color: var(--text);">1,080 جنيه</strong>، إلا إن نسبة التسليم الكلية <strong style="color: var(--text);">80.95%</strong> لا تزال ممتازة ومقبولة جداً في السوق المصري ومأثرتش علينا بشكل كبير مقارنة بنسبة التأكيد.
+            ونسبة تأكيد أقل من نسبة تسليم معناه إن المنتج نفسه مش مشجع كفاية.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PLATFORM GAP -->
+  <section class="report-section">
+    <div class="container">
+      <h2 class="report-section-title">الفرق بين أرقام المنصة والواقع الفعلي</h2>
+      <div class="results-grid">
+        
+        <div class="result-card">
+          <div class="result-num">31.9<span class="result-unit">ألف جنيه</span></div>
+          <div class="result-label">صافي الإيرادات المحصلة</div>
+          <div class="metric-comparison">
+            <div class="metric-row"><span>أرقام مدير الإعلانات (Meta):</span> <span>52,675 جنيه</span></div>
+            <div class="metric-row real"><span>المحصل الفعلي:</span> <span>31,995 جنيه</span></div>
+            <div class="metric-row loss"><span>التسريب:</span> <span>-20,680 جنيه</span></div>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-num">34<span class="result-unit">طلب</span></div>
+          <div class="result-label">الطلبات اللي اتسلمت بنجاح</div>
+          <div class="metric-comparison">
+            <div class="metric-row"><span>طلبات منصة الإعلانات:</span> <span>56 طلب</span></div>
+            <div class="metric-row real"><span>التسليم الفعلي:</span> <span>34 طلب</span></div>
+            <div class="metric-row loss"><span>مرتجع أو ملغي:</span> <span>22 طلب (39%)</span></div>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-num">289<span class="result-unit">جنيه</span></div>
+          <div class="result-label">التكلفة الحقيقية للطلب المستلم (dCPA)</div>
+          <div class="metric-comparison">
+            <div class="metric-row"><span>تكلفة الطلب على المنصة:</span> <span>176 جنيه</span></div>
+            <div class="metric-row real"><span>التكلفة الحقيقية (النهائية):</span> <span>289 جنيه</span></div>
+            <div class="metric-row loss"><span>زيادة التكلفة:</span> <span>+113 جنيه / للطلب</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CAUSE AND EFFECT -->
+  <section class="report-section" style="background: var(--bg-1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <h2 class="report-section-title">تحليل الأسباب الجذرية: إيه سبب الخساير دي؟</h2>
+      
+      <div class="insight-grid">
+        
+        <div class="insight-card">
+          <h3> السبب الأول: المنتج المحروق وتسعيره</h3>
+          <p><strong>النتيجة:</strong> خسارة كبيرة في التأكيدات.</p>
+          <p><strong>التفسير:</strong> فكرة (البوكليه + الخط العربي) اتهرست في السوق بقالها أكتر من سنتين. بدليل تجربة أكتر من 5 تصميمات دون جدوى. <strong>طالما المنتج محروق في السوق وتسعيره غالي، مهما عملنا من كريتيفز (Creatives) وإعلانات، ستظل النتائج النهائية كما هي بدون تغيير.</strong></p>
+          <p>العميل بيطلب من إعلاناتنا بشكل مندفع، بس فيسبوك محتاج أقل من ساعة عشان يطلعله نفس المنتج عند المنافسين بأسعار أرخص بكتير، زي دول:</p>
+          <ul style="padding-right: 20px; font-size: 15px;">
+            <li><a href="https://tawheedwnour.com/products/prayer-tableau12" target="_blank" class="custom-link">منافس سارق صورنا وبيبيع بسعر أقل </a></li>
+            <li><a href="https://artehubb.com/products/%D8%B1%D8%A8-%D8%A7%D9%86%D8%B2%D9%84%D9%86%D9%89-%D9%85%D9%86%D8%B2%D9%84%D8%A7-%D9%85%D8%A8%D8%A7%D8%B1%D9%83%D8%A7-%D9%88%D8%A7%D9%86%D8%AA-%D8%AE%D9%8A%D8%B1-%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84%D9%8A%D9%86-2" target="_blank" class="custom-link">منافس آخر بيبيع نفس المنتج بسعر أقل </a></li>
+          </ul>
+          <p>العميل بيشوف دا،  وبيكنسل الأوردر وقت التأكيد وأوقات وقت الاستلام.</p>
+        </div>
+        
+        <div class="insight-card">
+          <h3> السبب التاني: تسميم الخوارزميات والصفحة</h3>
+          <p><strong>النتيجة:</strong> تكلفة مبدئية عالية للطلب واستحالة التوسع وزيادة الميزانية .</p>
+          <p><strong>التفسير:</strong> تعرضنا مؤخراً لحملة من الأوردرات الفيك الصعبة جداً اللي بوظت خوارزميات ميتا تماماً. بيكسل ميتا بيبني قراراته على داتا بايظة، ودا بيخلينا محبوسين في دايرة بتغلي تكلفة النقرة وتصعب الوصول للمشتري الحقيقي.</p>
+          <p>الاعتماد على المتابعين الوهميين والكومنتات الوهمية على الصفحة أثر على آداء الاعلانات بشكل كبير. دا خلق <strong>حاجة ماسة وضرورية لحساب إعلاني جديد وصفحة جديدة تماماً</strong> عشان نخرج من الخوارزميات الميتة، <a href="https://www.facebook.com/TouchStoresEG/" target="_blank" class="custom-link">وده اللي أنا اشتغلت عليه بالفعل هنا</a>.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  
+  <!-- ACTION PLAN -->
+  <section class="report-section">
+    <div class="container">
+      <h2 class="report-section-title">خطة العمل: التصفية وبداية جديدة</h2>
+      <ul class="action-list">
+        <li><strong>تخفيض السعر فوراً للتصفية:</strong> منقدرش نبيع منتج موجود في السوق بـ 500 جنيه بـ 800 جنيه، حتى لو الشحن مجاني، وتكلفة محاولة إظهار الجودة بفيديوهات حقيقية مش مستاهلة، لأن العائد مش هيبقا مربح. لازم ننزل السعر فوراً عشان نصفي استوك القماش الموجود بأقل مكسب أو حتى بسعر التكلفة. الهدف دلوقتي هو "تسييل" البضاعة واسترجاع الكاش المحبوس في الاستوك.</li>
+        <li><strong>عمل صفحة فيسبوك جديدة تماماً:</strong> تم بالفعل العمل على إنشاء صفحة وحساب إعلاني جديد تماماً.</li>
+        <li><strong>وقف زيادة الميزانية:</strong> هنشغل حملات تصفية بميزانية قليلة. أي محاولة لزيادة الصرف على السعر القديم (799 جنيه) على الصفحة القديمة أو الجديدة هي معادلة خسرانة رياضياً وهتحرق فلوس.</li>
+        <li><strong>تطوير أفكار جديدة:</strong> هنستخدم الكاش اللي هيرجع من التصفية عشان نصمم أفكار منتجات جديدة تماماً ومش موجودة في السوق، وده هيدينا ميزة تنافسية وقوة في التسعير ترجعلنا هوامش ربح ممتازة.</li>
+      </ul>
+    </div>
+  </section>
+
+</body>
+</html>
